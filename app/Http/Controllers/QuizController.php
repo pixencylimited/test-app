@@ -63,6 +63,11 @@ class QuizController extends Controller
         // Validate JSON structure
         if (!is_array($quizArray)) {
             return response()->json(['error' => 'Invalid JSON format returned from Gemini API', 'raw_response' => $quizJson], 500);
+        }   
+        
+        // **Add Question Number**
+        foreach ($quizArray as $index => &$question) {
+            $question['question_no'] = $index + 1;
         }
 
         return response()->json($quizArray);
