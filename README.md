@@ -9,6 +9,6 @@ open the .env file and add  Gemini API Key:
 ```bash
 GEMINI_API_KEY=AIzaSyAhlamlKez25eKEshI3oNsIyH1ItMm1PuU
 
-To run your project on the default port : 
+To run the project on the default port : 
 php artisan serve
 http://127.0.0.1:8000/
