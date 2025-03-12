@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\QuizController;
+// use App\Http\Controllers\QuizController;
 
 
 Route::get('/user', function (Request $request) {
@@ -15,4 +15,4 @@ Route::get('/test', function (Request $request) {
 
 
 //AI Quiz generator API
-Route::post('/generate-quiz', [QuizController::class, 'generateQuiz']);
+// Route::post('/generate-quiz', [QuizController::class, 'generateQuiz']);
