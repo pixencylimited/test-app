@@ -9,6 +9,11 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
+        title: 'QuizGenerator',
+        url: '/quiz/form',
+        icon: LayoutGrid, 
+    },
+    {
         title: 'Dashboard',
         url: '/dashboard',
         icon: LayoutGrid,
