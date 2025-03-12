@@ -31,4 +31,4 @@ http://127.0.0.1:8000/
 
 ![screencapture-127-0-0-1-8000-quiz-form-2025-03-12-18_34_19](https://github.com/user-attachments/assets/3a432475-f6fe-4867-a017-14d9c958de66)
 
-![screencapture-127-0-0-1-8000-quiz-generate-2025-03-12-18_34_03](https://github.com/user-attachments/assets/383d60c8-1de0-4cc5-a301-bf58c4c92e27)
+![screencapture-127-0-0-1-8000-quiz-generate-2025-03-13-05_06_45](https://github.com/user-attachments/assets/357a232c-c016-42d9-83bf-d0841c7ebec8)
