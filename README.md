@@ -8,16 +8,16 @@ cp .env.example .env
 
 open the .env file and add  Gemini API Key:
 
-GEMINI_API_KEY=AIzaSyAhlamlKez25eKEshI3oNsIyH1ItMm1PuU
+**GEMINI_API_KEY**=AIzaSyAhlamlKez25eKEshI3oNsIyH1ItMm1PuU
 OR 
-GEMINI_API_KEY=AIzaSyD_mMcPqu0qEspk8BKoUcalix7o09Dt4Uw
+**GEMINI_API_KEY**=AIzaSyD_mMcPqu0qEspk8BKoUcalix7o09Dt4Uw
 
-1. composer install
+**1. composer install
 3. Then run database migrations 
 2. npm install vite --save-dev
 3. npm run build
-4. Register 
-5. Login
+📌 4.Register & Login **
+
 
 To run the project on the default port : 
 php artisan serve
