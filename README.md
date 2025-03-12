@@ -3,7 +3,7 @@
 
 ### 📌 Environment Variables
 Copy `.env.example` to `.env` file in your backend directory:
-```bash
+```
 cp .env.example .env
 
 open the .env file and add  Gemini API Key:
@@ -23,9 +23,7 @@ To run the project on the default port :
 php artisan serve
 http://127.0.0.1:8000/
 
-![screencapture-127-0-0-1-8000-quiz-form-2025-03-12-18_34_19](https://github.com/user-attachments/assets/dfefc170-7907-4f97-813e-fe34486d37cc)
+```
+![screencapture-127-0-0-1-8000-quiz-form-2025-03-12-18_34_19](https://github.com/user-attachments/assets/3a432475-f6fe-4867-a017-14d9c958de66)
 
-![screencapture-127-0-0-1-8000-quiz-generate-2025-03-12-18_34_03](https://github.com/user-attachments/assets/aaca8394-aabe-4a41-a436-45a437c90547)
-
-
-
+![screencapture-127-0-0-1-8000-quiz-generate-2025-03-12-18_34_03](https://github.com/user-attachments/assets/383d60c8-1de0-4cc5-a301-bf58c4c92e27)
