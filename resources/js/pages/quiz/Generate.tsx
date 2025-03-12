@@ -25,10 +25,23 @@ export default function Generate() {
     const [showResults, setShowResults] = useState(false);
     const [error, setError] = useState(props.error || '');
     const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+    const [score, setScore] = useState(0);
+
 
     const handleAnswerSelect = (questionId: number, option: string) => {
         if (!isQuizCompleted) {
-            setUserAnswers({ ...userAnswers, [questionId]: option });
+            const question = quizQuestions.find(q => q.question_no === questionId);
+            if (question) {
+                if(question.type === "multiple-choice"){
+                    if (question.options) {
+                        const optionIndex = question.options.indexOf(option);
+                        const optionLetter = String.fromCharCode(65 + optionIndex); // A=65, B=66, etc.
+                        setUserAnswers({ ...userAnswers, [questionId]: optionLetter });
+                    }
+                } else if (question.type === "true-false"){
+                    setUserAnswers({ ...userAnswers, [questionId]: option });
+                }
+            }
         }
     };
 
@@ -41,16 +54,32 @@ export default function Generate() {
     const calculateScore = () => {
         let correctCount = 0;
         quizQuestions.forEach((q) => {
-            if (userAnswers[q.question_no]?.trim().toLowerCase() === q.answer?.trim().toLowerCase()) {
-                correctCount++;
+            if (q.type === "multiple-choice" || q.type === "true-false") {
+                const userAnswer = userAnswers[q.question_no]?.trim().toLowerCase();
+                const correctAnswer = q.answer?.trim().toLowerCase();
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                }
+            } else {
+                const userAnswer = userAnswers[q.question_no]?.trim().toLowerCase();
+                const correctAnswer = q.answer?.trim().toLowerCase();
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                }
             }
         });
-        return (correctCount / quizQuestions.length) * 100;
+        const calculatedScore = (correctCount / quizQuestions.length) * 100;
+        setScore(calculatedScore);
+        return calculatedScore;
     };
 
     const handleShowResults = () => {
+        calculateScore();
         setShowResults(true);
         setIsQuizCompleted(true);
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 100); 
     };
 
     return (
@@ -65,25 +94,36 @@ export default function Generate() {
                     )}
 
                     <Card className="p-6">
+                        {showResults && (
+                            <div className="text-center mb-4">
+                                <h3 className="text-2xl font-bold">Your Score: {score.toFixed(2)}%</h3>
+                            </div>
+                        )}
                         <h2 className="text-2xl font-bold mb-4">Quiz</h2>
                         {quizQuestions.map((question) => (
                             <div key={question.question_no} className="mb-6 p-4 border rounded">
-                                <p className="font-semibold">{question.question_no}. {question.question}</p>
+                                <p className="font-semibold">
+                                    {question.question_no}. {question.question}
+                                </p>
                                 {question.type === "multiple-choice" && (
-                                    <ul>
-                                        {question.options.map((option, idx) => (
-                                            <li key={idx} className="mt-2">
-                                                <button
-                                                    onClick={() => handleAnswerSelect(question.question_no, option)}
-                                                    className={`px-4 py-2 rounded border ${userAnswers[question.question_no] === option ? 'bg-blue-500 text-white' : 'bg-gray-100'} ${isQuizCompleted ? 'cursor-not-allowed opacity-50' : ''}`}
-                                                    disabled={isQuizCompleted}
-                                                >
-                                                    {option}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
+                                <ul>
+                                    {question.options.map((option, idx) => (
+                                        <li key={idx} className="mt-2">
+                                            <button
+                                                onClick={() => handleAnswerSelect(question.question_no, option)}
+                                                className={`px-4 py-2 rounded border ${
+                                                    userAnswers[question.question_no] === String.fromCharCode(65 + question.options.indexOf(option))
+                                                        ? 'bg-blue-500 text-white'
+                                                        : 'bg-gray-100'
+                                                } ${isQuizCompleted ? 'cursor-not-allowed opacity-50' : ''}`}
+                                                disabled={isQuizCompleted}
+                                            >
+                                                {option}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                                 {question.type === "true-false" && (
                                     <ul>
                                         <li className="mt-2">
@@ -132,30 +172,34 @@ export default function Generate() {
                                         disabled={isQuizCompleted}
                                     />
                                 )}
+
+                            {showResults && (
+                                <div className="mt-2">
+                                    <p
+                                        className={`font-bold ${
+                                            userAnswers[question.question_no]?.trim().toLowerCase() === question.answer?.trim().toLowerCase()
+                                                ? 'text-green-600'
+                                                : 'text-red-600'
+                                        }`}
+                                    >
+                                        Your Answer:
+                                        {userAnswers[question.question_no]?.trim().toLowerCase() === question.answer?.trim().toLowerCase()
+                                            ? ' Correct'
+                                            : ' Incorrect'}
+                                    </p>
+                                    {userAnswers[question.question_no]?.trim().toLowerCase() !== question.answer?.trim().toLowerCase() && (
+                                        <p className="text-green-600 font-bold">
+                                            Correct Answer: {question.answer}
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                             </div>
                         ))}
 
                         <Button onClick={handleShowResults} className="mt-4" disabled={isQuizCompleted}>
                             Show Score
                         </Button>
-
-                        {showResults && (
-                            <div className="mt-6 p-4 border rounded">
-                                <h3 className="text-xl font-bold">Your Score: {calculateScore().toFixed(2)}%</h3>
-                                <h4 className="mt-4 font-semibold">Correct Answers:</h4>
-                                {quizQuestions.map((question) => (
-                                    <div key={question.question_no} className="mt-2">
-                                        <p>
-                                            <strong>{question.question_no}. {question.question}</strong>
-                                        </p>
-                                        <p className={`font-bold ${userAnswers[question.question_no]?.trim().toLowerCase() === question.answer?.trim().toLowerCase() ? 'text-green-600' : 'text-red-600'}`}>
-                                            Your Answer: {userAnswers[question.question_no] || "Not Answered"}
-                                        </p>
-                                        <p className="text-green-600 font-bold">Correct Answer: {question.answer}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
                     </Card>
                 </div>
             </div>
